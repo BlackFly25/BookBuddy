@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: BookBuddy
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bookbuddy
+    username: myuser
+    password: 11111
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none   # так как используешь Liquibase, Hibernate не должен сам менять схему
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  liquibase:
+    change-log: classpath:db/changelog/changelog-master.yaml
+
+server:
+  port: 8080
+  error:
+    include-message: always

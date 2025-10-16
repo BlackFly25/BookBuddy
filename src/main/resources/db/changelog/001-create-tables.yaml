@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-tables
+      author: blackfly
+      changes:
+        - sqlFile:
+            path: db/changelog/sql/001-create-tables.sql
+            relativeToChangelogFile: false
