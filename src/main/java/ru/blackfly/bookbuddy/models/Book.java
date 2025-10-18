@@ -6,7 +6,7 @@ import java.util.UUID;
 import java.util.List;
 
 @Entity
-@Table(name = "book")
+@Table(name = "books")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.blackfly.bookbuddy.models.User;
-import ru.blackfly.bookbuddy.models.Book;
 
 import java.util.UUID;
 
@@ -15,8 +13,8 @@ import java.util.UUID;
 @Builder
 public class ReviewDto {
     private UUID id;
-    private User user;
-    private Book book;
+    private UUID userId;
+    private UUID bookId;
     private int rating;
     private String comment;
 
