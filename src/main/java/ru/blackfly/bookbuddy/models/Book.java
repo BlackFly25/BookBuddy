@@ -7,8 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "book")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -32,4 +31,6 @@ public class Book {
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
+
+
 }
