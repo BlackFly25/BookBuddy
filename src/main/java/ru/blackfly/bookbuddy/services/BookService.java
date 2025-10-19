@@ -25,6 +25,14 @@ public class BookService {
         return bookMapper.toDto(book);
     }
 
+    public List<BookDto> findByTitle(String title) {
+        List<Book> books = bookRepository.findByTitle(title);
+        return books
+                .stream()
+                .map(bookMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
     public List<BookDto> findAll() {
         List<Book> books = bookRepository.findAll();
         return books

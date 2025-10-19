@@ -33,6 +33,13 @@ public class BookController {
         return ResponseEntity.ok(book);
     }
 
+    @GetMapping("/search")
+    @Operation(summary = "Get book by title")
+    public ResponseEntity<List<BookDto>> getBookByTitle(@RequestParam String title) {
+        List<BookDto> books = bookService.findByTitle(title);
+        return ResponseEntity.ok(books);
+    }
+
     @PostMapping
     @Operation(summary = "Create new Book")
     public ResponseEntity<BookDto> createBook(@RequestBody BookDto book) {
