@@ -2,6 +2,7 @@ package ru.blackfly.bookbuddy.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -44,7 +45,7 @@ public class BookController {
 
     @PostMapping
     @Operation(summary = "Create new Book")
-    public ResponseEntity<BookDto> createBook(@RequestBody BookDto book) {
+    public ResponseEntity<BookDto> createBook(@Valid @RequestBody BookDto book) {
         BookDto createdBook = bookService.create(book);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdBook);
     }

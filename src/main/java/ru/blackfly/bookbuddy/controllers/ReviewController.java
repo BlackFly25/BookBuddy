@@ -2,12 +2,12 @@ package ru.blackfly.bookbuddy.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.blackfly.bookbuddy.dto.ReviewDto;
-import ru.blackfly.bookbuddy.models.Review;
 import ru.blackfly.bookbuddy.services.ReviewService;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public class ReviewController {
 
     @PostMapping
     @Operation(summary = "Create a new review")
-    public ResponseEntity<ReviewDto> createReview(@RequestBody ReviewDto review) {
+    public ResponseEntity<ReviewDto> createReview(@Valid @RequestBody ReviewDto review) {
         ReviewDto createdReview = reviewService.create(review);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdReview);
     }
