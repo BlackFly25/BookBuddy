@@ -1,13 +1,15 @@
 package ru.blackfly.bookbuddy.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.blackfly.bookbuddy.dto.BookDto;
 import ru.blackfly.bookbuddy.mappers.BookMapper;
 import ru.blackfly.bookbuddy.models.Book;
 import ru.blackfly.bookbuddy.repos.BookRepository;
-
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -66,6 +68,13 @@ public class BookService {
         bookRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Book not found with id: " + id));
         bookRepository.deleteById(id);
+    }
+
+    public Page<BookDto> getBooks(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Book> booksPage = bookRepository.findAll(pageable);
+        return booksPage.map(bookMapper::toDto);
+
     }
 
 }

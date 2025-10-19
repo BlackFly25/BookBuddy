@@ -3,6 +3,7 @@ package ru.blackfly.bookbuddy.controllers;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +22,10 @@ public class BookController {
 
     @GetMapping
     @Operation(summary = "Get all books")
-    public ResponseEntity<List<BookDto>> getAllBooks() {
-        List<BookDto> books = bookService.findAll();
-        return ResponseEntity.ok(books);
+    public Page<BookDto> getBooks(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return bookService.getBooks(page, size);
     }
 
     @GetMapping("/{id}")
