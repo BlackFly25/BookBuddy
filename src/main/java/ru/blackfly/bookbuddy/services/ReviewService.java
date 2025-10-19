@@ -38,6 +38,17 @@ public class ReviewService {
                 map(reviewMapper::toDto)
                 .collect(Collectors.toList());
     }
+    public List<ReviewDto> findByBookId(UUID bookId) {
+        if (!bookRepository.existsById(bookId)) {
+            throw new RuntimeException("Book not found with id: " + bookId);
+        }
+        List<Review> reviews = reviewRepository.findByBookId(bookId);
+        return reviews
+                .stream()
+                .map(reviewMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
 
     @Transactional
     public ReviewDto create(ReviewDto reviewDto) {
@@ -50,7 +61,11 @@ public class ReviewService {
                 .orElseThrow(()->new RuntimeException("Book not found with id: " + reviewDto.getBookId()));
     review.setUser(user);
     review.setBook(book);
-    Review savedReview = reviewRepository.save(review);
+        if (reviewRepository.existsByUserIdAndBookId(reviewDto.getUserId(), reviewDto.getBookId())) {
+            throw new RuntimeException("User already reviewed this book");
+        }
+
+        Review savedReview = reviewRepository.save(review);
     return reviewMapper.toDto(savedReview);
     }
 

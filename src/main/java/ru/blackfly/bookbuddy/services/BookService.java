@@ -26,7 +26,7 @@ public class BookService {
     }
 
     public List<BookDto> findByTitle(String title) {
-        List<Book> books = bookRepository.findByTitle(title);
+        List<Book> books = bookRepository.findByTitleContainingIgnoreCase(title);
         return books
                 .stream()
                 .map(bookMapper::toDto)

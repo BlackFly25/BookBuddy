@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-users
+      author: blackfly
+      changes:
+        - sqlFile:
+            path: db/changelog/sql/003-insert-users.sql
+            relativeToChangelogFile: false

@@ -10,5 +10,6 @@ import java.util.UUID;
 @Repository
 public interface BookRepository extends JpaRepository<Book, UUID> {
     List<Book> findByTitle(String title);
+    List<Book> findByTitleContainingIgnoreCase(String title);
 
 }
