@@ -54,7 +54,7 @@ public class BookService {
                 .orElseThrow(() -> new RuntimeException("Book not found with id: " + id));
         toUpdate.setTitle(bookDto.getTitle());
         toUpdate.setAuthor(bookDto.getAuthor());
-        toUpdate.setPublishedYear(bookDto.getPublicationYear());
+        toUpdate.setPublishedYear(bookDto.getPublishedYear());
         toUpdate.setGenre(bookDto.getGenre());
 
         Book savedBook = bookRepository.save(toUpdate);

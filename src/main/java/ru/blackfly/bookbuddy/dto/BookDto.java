@@ -15,7 +15,7 @@ public class BookDto {
     private UUID id;
     private String title;
     private String author;
-    private int publicationYear;
+    private int publishedYear;
     private String genre;
 
 }
