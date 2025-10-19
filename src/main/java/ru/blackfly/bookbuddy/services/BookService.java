@@ -19,7 +19,6 @@ public class BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
 
-    @Transactional(readOnly = true)
     public BookDto findById(UUID id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Book not found with id: " + id));
@@ -27,12 +26,14 @@ public class BookService {
     }
 
     public List<BookDto> findAll() {
-        return bookRepository.findAll()
+        List<Book> books = bookRepository.findAll();
+        return books
                 .stream()
                 .map(bookMapper::toDto)
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public BookDto create(BookDto bookDto) {
         Book book = bookMapper.toEntity(bookDto);
         Book savedBook = bookRepository.save(book);

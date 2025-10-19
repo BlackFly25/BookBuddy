@@ -8,5 +8,5 @@ import ru.blackfly.bookbuddy.models.User;
 public interface UserMapper {
 
     UserDto toDto(User userEntity);
-    User fromDto(UserDto userDto);
+    User toEntity(UserDto userDto);
 }
