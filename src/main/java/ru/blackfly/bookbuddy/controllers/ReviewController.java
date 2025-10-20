@@ -1,12 +1,12 @@
 package ru.blackfly.bookbuddy.controllers;
 
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import ru.blackfly.bookbuddy.api.ReviewApi;
 import ru.blackfly.bookbuddy.dto.ReviewDto;
 import ru.blackfly.bookbuddy.services.ReviewService;
 
@@ -17,34 +17,22 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping("/api/reviews")
 @Tag(name = "Reviews", description = "Review management APIs")
-public class ReviewController {
+public class ReviewController implements ReviewApi {
     private final ReviewService reviewService;
 
-    @GetMapping
-    @Operation(summary = "Get all reviews")
+
+    @Override
     public ResponseEntity<List<ReviewDto>> getAllReviews() {
-        List<ReviewDto> reviews = reviewService.findAll();
-        return ResponseEntity.ok(reviews);
+        return ResponseEntity.ok(reviewService.findAll());
     }
 
-    @GetMapping("/book/{bookId}")
-    @Operation(summary = "Get review by book ID")
-    public ResponseEntity<List<ReviewDto>> getReviewByBookId(@PathVariable(("bookId")) UUID id) {
-        List<ReviewDto> reviews = reviewService.findByBookId(id);
-        return ResponseEntity.ok(reviews);
+    @Override
+    public ResponseEntity<List<ReviewDto>> getReviewByBookId(UUID bookId) {
+        return ResponseEntity.ok(reviewService.findByBookId(bookId));
     }
 
-    @PostMapping
-    @Operation(summary = "Create a new review")
-    public ResponseEntity<ReviewDto> createReview(@Valid @RequestBody ReviewDto review) {
-        ReviewDto createdReview = reviewService.create(review);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdReview);
+    @Override
+    public ResponseEntity<ReviewDto> createReview(ReviewDto review) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(reviewService.create(review));
     }
-
-
-
-
-
-
-
 }

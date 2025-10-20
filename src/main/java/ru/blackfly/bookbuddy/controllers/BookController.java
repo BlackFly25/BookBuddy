@@ -1,13 +1,11 @@
 package ru.blackfly.bookbuddy.controllers;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
+import ru.blackfly.bookbuddy.api.BookApi;
 import ru.blackfly.bookbuddy.dto.BookDto;
 import ru.blackfly.bookbuddy.services.BookService;
 
@@ -16,53 +14,38 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/books")
-@Tag(name = "Books", description = "Book management APIs")
-public class BookController {
+
+public class BookController implements BookApi {
     private final BookService bookService;
 
-    @GetMapping
-    @Operation(summary = "Get all books")
-    public Page<BookDto> getBooks(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+    @Override
+    public Page<BookDto> getBooks(int page, int size) {
         return bookService.getBooks(page, size);
     }
 
-    @GetMapping("/{id}")
-    @Operation(summary = "Get book by ID")
-    public ResponseEntity<BookDto> getBookById(@PathVariable UUID id) {
-        BookDto book = bookService.findById(id);
-        return ResponseEntity.ok(book);
+    @Override
+    public ResponseEntity<BookDto> getBookById(UUID id) {
+        return ResponseEntity.ok(bookService.findById(id));
     }
 
-    @GetMapping("/search")
-    @Operation(summary = "Get book by title")
-    public ResponseEntity<List<BookDto>> getBookByTitle(@RequestParam String title) {
-        List<BookDto> books = bookService.findByTitle(title);
-        return ResponseEntity.ok(books);
+    @Override
+    public ResponseEntity<List<BookDto>> getBookByTitle(String title) {
+        return ResponseEntity.ok(bookService.findByTitle(title));
     }
 
-    @PostMapping
-    @Operation(summary = "Create new Book")
-    public ResponseEntity<BookDto> createBook(@Valid @RequestBody BookDto book) {
-        BookDto createdBook = bookService.create(book);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdBook);
+    @Override
+    public ResponseEntity<BookDto> createBook(BookDto book) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.create(book));
     }
 
-    @PutMapping("/{id}")
-    @Operation(summary = "Update book by ID")
-    public ResponseEntity<BookDto> updateBook(@PathVariable UUID id, @RequestBody BookDto book) {
-        BookDto updatedBook = bookService.update(id, book);
-        return ResponseEntity.ok(updatedBook);
+    @Override
+    public ResponseEntity<BookDto> updateBook(UUID id, BookDto book) {
+        return ResponseEntity.ok(bookService.update(id, book));
     }
 
-    @DeleteMapping("/{id}")
-    @Operation(summary = "Delete book by ID")
-    public ResponseEntity<Void> deleteBook(@PathVariable UUID id) {
+    @Override
+    public ResponseEntity<Void> deleteBook(UUID id) {
         bookService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
-
 }
